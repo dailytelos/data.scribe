@@ -1,0 +1,277 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.2",
+    "types": [],
+    "structs": [
+        {
+            "name": "clearbytime",
+            "base": "",
+            "fields": [
+                {
+                    "name": "signor",
+                    "type": "name"
+                },
+                {
+                    "name": "scope",
+                    "type": "name"
+                },
+                {
+                    "name": "varname",
+                    "type": "name"
+                },
+                {
+                    "name": "time",
+                    "type": "time_point_sec"
+                }
+            ]
+        },
+        {
+            "name": "clearlast",
+            "base": "",
+            "fields": [
+                {
+                    "name": "signor",
+                    "type": "name"
+                },
+                {
+                    "name": "scope",
+                    "type": "name"
+                },
+                {
+                    "name": "varname",
+                    "type": "name"
+                },
+                {
+                    "name": "qty",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "delvar",
+            "base": "",
+            "fields": [
+                {
+                    "name": "signor",
+                    "type": "name"
+                },
+                {
+                    "name": "scope",
+                    "type": "name"
+                },
+                {
+                    "name": "varname",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "message",
+            "base": "",
+            "fields": [
+                {
+                    "name": "sender",
+                    "type": "name"
+                },
+                {
+                    "name": "msg",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "regvar",
+            "base": "",
+            "fields": [
+                {
+                    "name": "signor",
+                    "type": "name"
+                },
+                {
+                    "name": "scope",
+                    "type": "name"
+                },
+                {
+                    "name": "varname",
+                    "type": "name"
+                },
+                {
+                    "name": "vardgt",
+                    "type": "name"
+                },
+                {
+                    "name": "type",
+                    "type": "string"
+                },
+                {
+                    "name": "tlimit",
+                    "type": "uint64"
+                },
+                {
+                    "name": "vlimit",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "update",
+            "base": "",
+            "fields": [
+                {
+                    "name": "signor",
+                    "type": "name"
+                },
+                {
+                    "name": "scope",
+                    "type": "name"
+                },
+                {
+                    "name": "varname",
+                    "type": "name"
+                },
+                {
+                    "name": "operation",
+                    "type": "string"
+                },
+                {
+                    "name": "index",
+                    "type": "uint8"
+                },
+                {
+                    "name": "uval",
+                    "type": "uint128[]"
+                },
+                {
+                    "name": "sval",
+                    "type": "string[]"
+                },
+                {
+                    "name": "nval",
+                    "type": "int128[]"
+                }
+            ]
+        },
+        {
+            "name": "varreg",
+            "base": "",
+            "fields": [
+                {
+                    "name": "varname",
+                    "type": "name"
+                },
+                {
+                    "name": "vardgt",
+                    "type": "name"
+                },
+                {
+                    "name": "t",
+                    "type": "uint8"
+                },
+                {
+                    "name": "tcount",
+                    "type": "uint64"
+                },
+                {
+                    "name": "tlimit",
+                    "type": "uint64"
+                },
+                {
+                    "name": "vlimit",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "vars",
+            "base": "",
+            "fields": [
+                {
+                    "name": "varid",
+                    "type": "name"
+                },
+                {
+                    "name": "data",
+                    "type": "varstrct"
+                }
+            ]
+        },
+        {
+            "name": "varstrct",
+            "base": "",
+            "fields": [
+                {
+                    "name": "varid",
+                    "type": "name"
+                },
+                {
+                    "name": "uval",
+                    "type": "uint128[]"
+                },
+                {
+                    "name": "sval",
+                    "type": "string[]"
+                },
+                {
+                    "name": "nval",
+                    "type": "int128[]"
+                },
+                {
+                    "name": "vlimit",
+                    "type": "uint8"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "clearbytime",
+            "type": "clearbytime",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "clearlast",
+            "type": "clearlast",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "delvar",
+            "type": "delvar",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "message",
+            "type": "message",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "regvar",
+            "type": "regvar",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "update",
+            "type": "update",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "vartable",
+            "type": "vars",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "vregister",
+            "type": "varreg",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "kv_tables": {},
+    "ricardian_clauses": [],
+    "variants": [],
+    "action_results": []
+}
