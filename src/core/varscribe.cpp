@@ -238,8 +238,8 @@ void datascribe::_authvarname(name varname) {
     // stat.xxxx
     // data.xxxx
     if( (varname.to_string().substr(0,7) == "global.") ||
-        (varname.to_string().substr(0,7) == "global.") ||
-        (varname.to_string().substr(0,7) == "global.") ) {
+        (varname.to_string().substr(0,5) == "stat.") ||
+        (varname.to_string().substr(0,5) == "data.") ) {
         require_auth(get_self());
     }
 }
