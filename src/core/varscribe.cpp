@@ -4,6 +4,9 @@
 ACTION datascribe::regvar(name signor, name scope, name varname, name vardgt, string type, uint64_t tlimit, uint8_t vlimit) {
   require_auth(signor);
 
+  //require auth for reserved varname registration
+  _authvarname(varname);
+
   check(signor.value == scope.value, "Account signor must match account scope. (E|data.scribe|update|var.scribe.cpp:7|)");
 
   _regvar( signor,  scope,  varname,  vardgt,  type,  tlimit,  vlimit);
@@ -11,6 +14,9 @@ ACTION datascribe::regvar(name signor, name scope, name varname, name vardgt, st
 
 ACTION datascribe::delvar(name signor, name scope, name varname) {
   require_auth(signor);
+
+  //require auth for reserved varname registration
+  _authvarname(varname);
 
   check(signor.value == scope.value, "Account signor must match account scope. (E|data.scribe|update|var.scribe.cpp:7|)");
 
@@ -26,6 +32,9 @@ ACTION datascribe::delvar(name signor, name scope, name varname) {
 ACTION datascribe::update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval) {
   require_auth(signor);
 
+  //require auth for reserved varname registration
+  _authvarname(varname);
+
   check(signor.value == scope.value, "Account signor must match account scope. (E|data.scribe|update|var.scribe.cpp:7|)");
 
   _update(signor, scope, varname, operation, index, uval, sval, nval);
@@ -33,6 +42,9 @@ ACTION datascribe::update(name signor, name scope, name varname, string operatio
 
 ACTION datascribe::clearbytime(name signor, name scope, name varname, time_point_sec time) {
   require_auth(signor);
+
+  //require auth for reserved varname registration
+  _authvarname(varname);
 
   check(signor.value == scope.value, "Account signor must match account scope. (E|data.scribe|update|var.scribe.cpp:7|)");
 
@@ -67,6 +79,9 @@ ACTION datascribe::clearbytime(name signor, name scope, name varname, time_point
 ACTION datascribe::clearlast(name signor, name scope, name varname, uint8_t qty) {
   require_auth(signor);
 
+  //require auth for reserved varname registration
+  _authvarname(varname);
+
   check(signor.value == scope.value, "Account signor must match account scope. (E|data.scribe|update|var.scribe.cpp:7|)");
 
   varreg_index _varreg(get_self(), scope.value);
@@ -93,10 +108,10 @@ ACTION datascribe::clearlast(name signor, name scope, name varname, uint8_t qty)
 
 void datascribe::_regvar(name signor, name scope, name varname, name vardgt, string type, uint64_t tlimit, uint8_t vlimit) {
 
-  check(type.size() == 1, "Length of type must equal 1. (E|" + get_self().to_string() + "|update|var.scribe.cpp:12|)");
-
   //require auth for reserved varname registration
   _authvarname(varname);
+
+  check(type.size() == 1, "Length of type must equal 1. (E|" + get_self().to_string() + "|update|var.scribe.cpp:12|)");
 
   varreg_index _varreg(get_self(), scope.value);
   auto itr_varreg = _varreg.find(varname.value);
@@ -120,6 +135,9 @@ void datascribe::_regvar(name signor, name scope, name varname, name vardgt, str
 }
 
 void datascribe::_update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval) {
+
+  //require auth for reserved varname registration
+  _authvarname(varname);
 
   varreg_index _varreg(get_self(), scope.value);
 
@@ -228,7 +246,6 @@ string datascribe::getdatestr(uint8_t nType, time_point tTime) {
 
   return sRet;
 }
-
 
 
 void datascribe::_authvarname(name varname) {
