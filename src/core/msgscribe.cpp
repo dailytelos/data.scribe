@@ -7,6 +7,21 @@ ACTION datascribe::message(name sender, string msg) {
   msg_proc(sender, msg);
 };
 
+
+ACTION datascribe::msgid(uint128_t id) {
+  require_auth(get_self());
+
+  varstrct cMsgCount = _getvar(get_self(), name("global.msgid"));
+  uint128_t nCount = 0;
+
+  if(cMsgCount.varid.value != name(NAME_NULL).value) { nCount = cMsgCount.nval[0]; }
+
+  check(nCount == id, "Invalid value for id passed, see variable global.msgid. ");
+
+  //increment variable count
+  _update(get_self(), get_self(), name("global.msgid"), "+", 0, {1}, {}, {});
+};
+
 //**************************** PRIVATE FUNCTIONS
 
 void datascribe::msg_proc(name sender, string msg) {
@@ -98,4 +113,28 @@ void datascribe::msg_proc(name sender, string msg) {
     ).send();*/
   }
 
+  //broadcast message id registration on blockchain
+  msg_broadcast_id();
+
 };
+
+
+void datascribe::msg_broadcast_id() {
+
+  varstrct cMsgCount = _getvar(get_self(), name("global.msgid"));
+  uint128_t nCount = 0;
+
+  if(cMsgCount.varid.value != name(NAME_NULL).value) { nCount = cMsgCount.nval[0]; }
+
+  //send broadcast of current id in use
+  action(
+        permission_level{ get_self(), "active"_n},
+        get_self(),
+        name("msgid"),
+        std::make_tuple(
+          nCount //uint128_t
+        )
+    ).send();
+};
+
+  

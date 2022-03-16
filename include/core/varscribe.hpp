@@ -15,6 +15,7 @@ private:
 //---------------PRIVATE FUNCTIONS
 void _regvar(name signor, name scope, name varname, name vardgt, string type, uint64_t tlimit, uint8_t vlimit);
 void _update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval);
+varstrct _getvar(name scope, name varname);
 uint8_t getvartype(name varid);
 string getdatestr(uint8_t nType, time_point tTime);
 string datestrtoeosio(string datestr);

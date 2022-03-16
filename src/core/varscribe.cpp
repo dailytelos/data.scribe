@@ -165,6 +165,38 @@ void datascribe::_update(name signor, name scope, name varname, string operation
   }
 }
 
+
+datascribe::varstrct datascribe::_getvar(name scope, name varname) {
+
+  varreg_index _varreg(get_self(), scope.value);
+
+  auto itr_varreg = _varreg.find(varname.value);
+  //check(itr_varreg != _varreg.end(), 
+  //return null varstrct if no var exists ----- START
+    if(itr_varreg == _varreg.end()) {
+
+      return varstrct();
+    }
+  //----------------------------------- END
+  
+  //handle date type variables
+  uint8_t nType = itr_varreg->t;
+  string sDATE = getdatestr(nType, current_time_point());
+
+  //build varid from varreg row
+  string sType = itr_varreg->char_type();
+  string sVarID = sType + itr_varreg->vardgt.to_string() + sDATE;
+
+  vars_index _vars(get_self(), scope.value);
+  auto itr_var = _vars.find(name(sVarID).value);
+
+  if(itr_var == _vars.end()) {
+    return varstrct();
+  } 
+  
+  return itr_var->data;
+}
+
 uint8_t datascribe::getvartype(name varid) {
   return varstrct(varid, 1).type();
 }

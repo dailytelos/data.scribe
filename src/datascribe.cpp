@@ -5,4 +5,4 @@
 
 
 
-EOSIO_DISPATCH(datascribe, (message)(regvar)(delvar)(update)(clearbytime)(clearlast))
+EOSIO_DISPATCH(datascribe, (message)(msgid)(regvar)(delvar)(update)(clearbytime)(clearlast))

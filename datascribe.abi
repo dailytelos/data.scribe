@@ -80,6 +80,16 @@
             ]
         },
         {
+            "name": "msgid",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint128"
+                }
+            ]
+        },
+        {
             "name": "regvar",
             "base": "",
             "fields": [
@@ -241,6 +251,11 @@
         {
             "name": "message",
             "type": "message",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "msgid",
+            "type": "msgid",
             "ricardian_contract": ""
         },
         {
