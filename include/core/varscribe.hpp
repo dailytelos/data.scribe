@@ -19,6 +19,7 @@ varstrct _getvar(name scope, name varname);
 uint8_t getvartype(name varid);
 string getdatestr(uint8_t nType, time_point tTime);
 string datestrtoeosio(string datestr);
+void _authvarname(name varname);
 
 
 //*********** TABLE - varreg *******************

@@ -95,6 +95,9 @@ void datascribe::_regvar(name signor, name scope, name varname, name vardgt, str
 
   check(type.size() == 1, "Length of type must equal 1. (E|" + get_self().to_string() + "|update|var.scribe.cpp:12|)");
 
+  //require auth for reserved varname registration
+  _authvarname(varname);
+
   varreg_index _varreg(get_self(), scope.value);
   auto itr_varreg = _varreg.find(varname.value);
 
@@ -224,4 +227,19 @@ string datascribe::getdatestr(uint8_t nType, time_point tTime) {
   }
 
   return sRet;
+}
+
+
+
+void datascribe::_authvarname(name varname) {
+     //restrict varname registration by signor, to reserve following names to get_self() contract only
+    // will still be scoped under the user name
+    // global.xxxx
+    // stat.xxxx
+    // data.xxxx
+    if( (varname.to_string().substr(0,7) == "global.") ||
+        (varname.to_string().substr(0,7) == "global.") ||
+        (varname.to_string().substr(0,7) == "global.") ) {
+        require_auth(get_self());
+    }
 }
