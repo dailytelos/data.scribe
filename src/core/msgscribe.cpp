@@ -8,7 +8,7 @@ ACTION datascribe::message(name sender, string msg) {
 };
 
 
-ACTION datascribe::msgid(uint128_t id) {
+ACTION datascribe::msgid(uint128_t id, name sender) {
   require_auth(get_self());
 
   varstrct cMsgCount = _getvar(get_self(), name("global.msgid"));
@@ -114,12 +114,12 @@ void datascribe::msg_proc(name sender, string msg) {
   }
 
   //broadcast message id registration on blockchain
-  msg_broadcast_id();
+  msg_broadcast_id(sender);
 
 };
 
 
-void datascribe::msg_broadcast_id() {
+void datascribe::msg_broadcast_id(name sender) {
 
   varstrct cMsgCount = _getvar(get_self(), name("global.msgid"));
   uint128_t nCount = 0;
@@ -132,7 +132,8 @@ void datascribe::msg_broadcast_id() {
         get_self(),
         name("msgid"),
         std::make_tuple(
-          nCount //uint128_t
+          nCount, //uint128_t
+          sender
         )
     ).send();
 };

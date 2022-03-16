@@ -86,6 +86,10 @@
                 {
                     "name": "id",
                     "type": "uint128"
+                },
+                {
+                    "name": "sender",
+                    "type": "name"
                 }
             ]
         },
