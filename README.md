@@ -31,6 +31,8 @@ Send string data for logging to the blockchain.  It will filter for `|!|` to fin
 * `|!|var_name|vtype|value|operation|index|!|` -- Will perform specified **operation** for var_name at **index** using **value*.
 * `|!|var_name|vtype|value|operation|index|vardgt(regvar)|type(regvar)|tlimit|vlimit|!|` -- Includes additional variable registration details.
 
+* `vtype` - set to `s` for string, `u` for uint128_t, `a` for asset, `n` for int128_t
+
 ### Operators
 
 * `set`: Sets variable at vector index, valid for uint64_t, int64_t, and std::string
