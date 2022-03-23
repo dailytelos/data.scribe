@@ -7,6 +7,8 @@ This contract is written to handle:
 - Blockchain Messaging
 - Oracle data posting / Oracle RAM data updates
 - Stats logging in RAM, organized by hour / day / month / year (your choice)
+- Front-End dApp User Settings stored in RAM (users can later delete their settings to free RAM)
+- Smart contract stats logging / tracking in RAM, just have your contract call `ACTION update`
 
 **WARNING:** *This project is insufficiently tested / audited to secure financial data. Daily Telos reserves the right to reset the public contract for any reason including the discovery a bug.*
 
