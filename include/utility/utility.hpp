@@ -88,3 +88,29 @@ string chop(string s) {
     return s.substr(0, s.size()-1);
 }
 
+asset stoa(string s) {
+    vector<string> data = split(s, " ");
+    check(data.size() == 2, "Improper data sent to stoa(s). ");
+    string sSC = data[1];
+    symbol_code sc = symbol_code(sSC);
+    check(sc.to_string().size() >= 1, "Improper data sent to stoa(s). ");
+    vector<string> amount = split(data[0], ".");
+
+    string sAmount = "";
+    uint8_t precision = 0;
+
+    if(amount.size() == 1) { // precision is 0
+        sAmount = amount[0];
+    } else if (amount.size() == 2) {  // set precision
+        precision = (uint8_t) amount[1].size();  //string length is the precision
+        sAmount = amount[0] + amount[1];
+    } else { //error
+        check(false, "Improper data sent to stoa(s). ");
+    }
+
+    int64_t nAmount = stoi(sAmount);
+
+    return asset(nAmount, symbol(sc, precision)); 
+}
+
+

@@ -6,7 +6,7 @@ public:
 //---------------PUBLIC ACTIONS
 ACTION regvar(name signor, name scope, name varname, name vardgt, string type, uint64_t tlimit, uint8_t vlimit);
 ACTION delvar(name signor, name scope, name varname);
-ACTION update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval);
+ACTION update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval);
 ACTION clearbytime(name signor, name scope, name varname, time_point_sec time);
 ACTION clearlast(name signor, name scope, name varname, uint8_t qty);
 
@@ -14,7 +14,7 @@ private:
 
 //---------------PRIVATE FUNCTIONS
 void _regvar(name signor, name scope, name varname, name vardgt, string type, uint64_t tlimit, uint8_t vlimit);
-void _update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval);
+void _update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval);
 varstrct _getvar(name scope, name varname);
 uint8_t getvartype(name varid);
 string getdatestr(uint8_t nType, time_point tTime);

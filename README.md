@@ -8,12 +8,12 @@ This contract is written to handle:
 - Oracle data posting / Oracle RAM data updates
 - Stats logging in RAM, organized by hour / day / month / year (your choice)
 
-*This project is insufficiently tested / audieted to secure financial data.*
+**WARNING:** *This project is insufficiently tested / audited to secure financial data. Daily Telos reserves the right to reset the public contract for any reason including the discovery a bug.*
 
 ### Features
 - Can organize variables by year / month / day / hour, (ie. daily totals, daily average)
 - Variety of valid operations: `set` `+` `-` `*` `/` `%` `min` `max`
-- Stores RAM data in following formats: `uint128_t` `int128_t` `std::string`
+- Stores RAM data in following formats: `uint128_t` `int128_t` `std::string` `asset`
 - Single RAM row can contain multiple values
 - Messagings can multiple variable updates using `|!|...|!|` formatting
 
@@ -34,13 +34,17 @@ Send string data for logging to the blockchain.  It will filter for `|!|` to fin
 ### Operators
 
 * `set`: Sets variable at vector index, valid for uint64_t, int64_t, and std::string
-* `+` : Adds value to variable at vector index, invalid for std::string
+* `+` : Adds value to variable at vector index, for std::string this will **append** on the end of the string
 * `-` : Subtracts value to variable at vector index, invalid for std::string
 * `*` : Multiplies at index, invalid for std::string
 * `/` : Divides at index, invalid for std::string
 * `%` : Modulus at index, invalid for std::string
 * `min` : Checks new value against old value at index, keeps the lesser, invalid for std::string
 * `max` : Checks new value against old value at index, keeps the higher, invalid for std::string
+
+## ACTION msgid
+
+Called by the contract function itself `get_self()`, as a by-product of calling `ACTION message` it registers a message identifier under `global.msgid` inside `TABLE vregister` using a `uval`.
 
 ## ACTION regvar
 
@@ -59,7 +63,7 @@ daily lows, daily highs, etc.  `vardgt` must be the unique 3 digit identifier fo
 ## ACTION update
 
 This action controls a direct update to a RAM variable, this is great for oracles to use, or more advanced users.  It is specifically to handle
-updates to variables.  It provides for finer controls of uploading multiple operations at once and having vectors of uint128_t / int128_t / std::string
+updates to variables.  It provides for finer controls of uploading multiple operations at once and having vectors of uint128_t / int128_t / std::string / asset
 uploaded to the blockchain in one action.
 
 * `signor` (name) - EOSIO account to pay for all RAM, the authorized signor to update the variable.
@@ -70,6 +74,7 @@ uploaded to the blockchain in one action.
 * `uval` (vector<uint128_t>) - Vector of uint128_t
 * `sval` (vector<std::string>) - Vector of std::string
 * `nval` (vector<int128_t>) - Vector of int128_t
+* `aval` (vector<asset>) - Vector of asset
 
 ## ACTION delvar
 

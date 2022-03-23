@@ -162,6 +162,10 @@
                 {
                     "name": "nval",
                     "type": "int128[]"
+                },
+                {
+                    "name": "aval",
+                    "type": "asset[]"
                 }
             ]
         },
@@ -228,6 +232,10 @@
                 {
                     "name": "nval",
                     "type": "int128[]"
+                },
+                {
+                    "name": "aval",
+                    "type": "asset[]"
                 },
                 {
                     "name": "vlimit",

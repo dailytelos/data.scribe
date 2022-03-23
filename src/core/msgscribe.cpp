@@ -19,7 +19,7 @@ ACTION datascribe::msgid(uint128_t id, name sender) {
   check(nCount == id, "Invalid value for id passed, see variable global.msgid. ");
 
   //increment variable count
-  _update(get_self(), get_self(), name("global.msgid"), "+", 0, {1}, {}, {});
+  _update(get_self(), get_self(), name("global.msgid"), "+", 0, {1}, {}, {}, {});
 };
 
 /*ACTION datascribe::view(uint128_t id, name viewer) {
@@ -70,6 +70,7 @@ void datascribe::msg_proc(name sender, string msg) {
     vector<string>    sval;
     vector<uint128_t> uval;
     vector<int128_t>  nval;
+    vector<asset>     aval;
 
     aVar = split(aMsg[i],"|");
     check((aVar.size() >= 3) || (aVar.size() == 5) || (aVar.size() == 9), "Variable format error when using | character.");
@@ -96,6 +97,7 @@ void datascribe::msg_proc(name sender, string msg) {
     if(vtype == "u") { uval.push_back(stoi(value)); }
     else if(vtype == "n") { nval.push_back(stoi(value)); }
     else if(vtype == "s") { sval.push_back(value); }
+    else if(vtype == "a") { aval.push_back(stoa(value)); }
     
     //find varnames
     itr_varreg = _varreg.find(varname.value);
@@ -103,7 +105,7 @@ void datascribe::msg_proc(name sender, string msg) {
       _regvar(sender, sender, varname, vardgt, type, tlimit, vlimit);
     }
 
-    _update(sender, sender, varname, oper, index, uval, sval, nval);
+    _update(sender, sender, varname, oper, index, uval, sval, nval, aval);
 
     /*  // Old version when was separate contract
     action(

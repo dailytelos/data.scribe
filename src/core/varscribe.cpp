@@ -29,7 +29,7 @@ ACTION datascribe::delvar(name signor, name scope, name varname) {
   _varreg.erase(itr_varreg);
 };
 
-ACTION datascribe::update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval) {
+ACTION datascribe::update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
   require_auth(signor);
 
   //require auth for reserved varname registration
@@ -37,7 +37,7 @@ ACTION datascribe::update(name signor, name scope, name varname, string operatio
 
   check(signor.value == scope.value, "Account signor must match account scope. (E|data.scribe|update|var.scribe.cpp:7|)");
 
-  _update(signor, scope, varname, operation, index, uval, sval, nval);
+  _update(signor, scope, varname, operation, index, uval, sval, nval, aval);
 }
 
 ACTION datascribe::clearbytime(name signor, name scope, name varname, time_point_sec time) {
@@ -134,7 +134,7 @@ void datascribe::_regvar(name signor, name scope, name varname, name vardgt, str
 
 }
 
-void datascribe::_update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval) {
+void datascribe::_update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
 
   //require auth for reserved varname registration
   _authvarname(varname);
@@ -177,11 +177,11 @@ void datascribe::_update(name signor, name scope, name varname, string operation
     _vars.emplace( signor, [&]( auto& vrow ) {
       vrow.varid = name(sVarID);
       vrow.data = varstrct(name(sVarID), itr_varreg->vlimit);
-      vrow.data.update(operation, index, uval, sval, nval);
+      vrow.data.update(operation, index, uval, sval, nval, aval);
     });
   } else {
     _vars.modify( itr_var, same_payer, [&]( auto& vrow ) {
-      vrow.data.update(operation, index, uval, sval, nval);
+      vrow.data.update(operation, index, uval, sval, nval, aval);
     });
   }
 }
