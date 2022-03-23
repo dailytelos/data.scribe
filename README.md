@@ -78,7 +78,7 @@ uploaded to the blockchain in one action.
 * `uval` (vector<uint128_t>) - Vector of uint128_t
 * `sval` (vector<std::string>) - Vector of std::string
 * `nval` (vector<int128_t>) - Vector of int128_t
-* `aval` (vector<asset>) - Vector of asset
+* `aval` (vector<eosio::asset>) - Vector of asset
 
 ## ACTION delvar
 

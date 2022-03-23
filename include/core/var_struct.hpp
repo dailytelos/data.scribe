@@ -46,7 +46,7 @@ struct varstrct {
         //update uval 
         for(uint8_t i = 0; i < i_uval.size(); i++) {
             if((i+index) < uval.size()) { uval[i+index] = oper(operation, uval[i+index], i_uval[i]); }
-            else { uval.push_back(oper(operation, (uint128_t) 0, i_uval[i])); }
+            else { uval.push_back(oper(operation, (operation == "min") ? i_uval[i] : (uint128_t) 0, i_uval[i])); }
         }
         check(uval.size() <= vlimit, "vlimit exceeded for variable uval:" + to_string(uval.size()) + " (E|varstrct|var_struct.hpp:49)");
         //update sval 
@@ -58,13 +58,13 @@ struct varstrct {
         //update nval 
         for(uint8_t i = 0; i < i_nval.size(); i++) {
             if((i+index) < nval.size()) { nval[i+index] = oper(operation, nval[i+index], i_nval[i]); }
-            else { nval.push_back(oper(operation, (int128_t) 0, i_nval[i])); }
+            else { nval.push_back(oper(operation, (operation == "min") ? i_nval[i] : (int128_t) 0, i_nval[i])); }
         }
         check(nval.size() <= vlimit, "vlimit exceeded for variable nval:" + to_string(nval.size()) + "  (E|varstrct|var_struct.hpp:61)");
         //update aval 
         for(uint8_t i = 0; i < i_aval.size(); i++) {
             if((i+index) < aval.size()) { aval[i+index] = oper(operation, aval[i+index], i_aval[i]); }
-            else { aval.push_back(oper(operation, asset(0, i_aval[i].symbol), i_aval[i])); }
+            else { aval.push_back(oper(operation, (operation == "min") ? i_aval[i] : asset(0, i_aval[i].symbol), i_aval[i])); }
         }
         check(aval.size() <= vlimit, "vlimit exceeded for variable aval:" + to_string(aval.size()) + "  (E|varstrct|var_struct.hpp:69)");
     };
