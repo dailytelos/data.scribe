@@ -14,7 +14,7 @@ ACTION datascribe::msgid(uint128_t id, name sender) {
   varstrct cMsgCount = _getvar(get_self(), name("global.msgid"));
   uint128_t nCount = 0;
 
-  if(cMsgCount.varid.value != name(NAME_NULL).value) { nCount = cMsgCount.nval[0]; }
+  if(cMsgCount.varid.value != name(NAME_NULL).value) { nCount = cMsgCount.uval[0]; }
 
   check(nCount == id, "Invalid value for id passed, see variable global.msgid. ");
 
