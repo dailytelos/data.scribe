@@ -32,15 +32,19 @@ ACTION datascribe::msgid(uint128_t id, name sender) {
 
 void datascribe::msg_proc(name sender, string msg) {
 
-  check(msg.size() <= 5000, "msg parameter should be no more than 5000 characters.");
+  //disabled, managed by NET/CPU anyway
+  //check(msg.size() <= 5000, "msg parameter should be no more than 5000 characters.");
 
   vector<string> aMsg = split(msg,"|!|");
   string sData = "";
   uint16_t count = 0;
 
   check((aMsg.size() % 2) == 1, "Invalid format using wrong quantity of |!| within message.");
-  check(aMsg.size() <= 20, "This message contains more than 10 variable updates.");
-  //formats:
+  
+  //disabled, managed by NET/CPU anyway
+  //check(aMsg.size() <= 20, "This message contains more than 10 variable updates.");
+  
+  //message variable formats:
   //|!|var_name|vtype|value|!| ---  will perform set operation at index 0
   //|!|var_name|vtype|value|operation|index|!| --- full variable setting
   //|!|var_name|vtype|value|operation|index|vardgt(regvar)|type(regvar)|tlimit|vlimit|!|  --- includes registration details
