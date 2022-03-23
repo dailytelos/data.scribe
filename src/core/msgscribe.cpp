@@ -136,7 +136,7 @@ void datascribe::msg_broadcast_id(name sender) {
   varstrct cMsgCount = _getvar(get_self(), name("global.msgid"));
   uint128_t nCount = 0;
 
-  if(cMsgCount.varid.value != name(NAME_NULL).value) { nCount = cMsgCount.nval[0]; }
+  if(cMsgCount.varid.value != name(NAME_NULL).value) { nCount = cMsgCount.uval[0]; }
 
   //send broadcast of current id in use
   action(
