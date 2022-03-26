@@ -24,9 +24,15 @@ ACTION datascribe::delvar(name signor, name scope, name varname) {
   auto itr_varreg = _varreg.find(varname.value);
 
   check(itr_varreg != _varreg.end(), "varname does not exist, you must register a varname first with regvar. (E|" + get_self().to_string() + "|update|var.scribe.cpp:7|)");
-  check(itr_varreg->tcount == 0, "variables currently exist inside vars table, you must clear those first. (E|" + get_self().to_string() + "|update|var.scribe.cpp:7|");
+  //check(itr_varreg->tcount == 0, "variables currently exist inside vars table, you must clear those first. (E|" + get_self().to_string() + "|update|var.scribe.cpp:7|");
 
-  _varreg.erase(itr_varreg);
+  vars_index _vars(get_self(), scope.value);
+
+  if((_vars.begin() == _vars.end()) || (itr_varreg->tcount == 0)) {  // all is deleted from vars, or tcount == 0
+    _varreg.erase(itr_varreg);
+  } else {
+    check(false, "unable to delete by var registration, tcount does not equal zero. (E|" + get_self().to_string() + "|update|var.scribe.cpp:34|)");
+  }
 };
 
 ACTION datascribe::update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
@@ -92,15 +98,15 @@ ACTION datascribe::clearlast(name signor, name scope, name varname, uint8_t qty)
 
   vars_index _vars(get_self(), scope.value);
 
-  uint8_t nIndex = 0;
-  for ( auto itr_var = _vars.begin(); ((itr_var != _vars.end()) && (nIndex < qty)); nIndex++ ) {
-    itr_var = _vars.erase(itr_var);
-  }
-
   //decrement count
   _varreg.modify( itr_varreg, same_payer, [&]( auto& vrow ) {
-      if((vrow.tcount - nIndex) <= 0) { vrow.tcount = 0; }
-      else { vrow.tcount = vrow.tcount - nIndex; }
+      uint8_t nIndex = 0;
+      for ( auto itr_var = _vars.begin(); ((itr_var != _vars.end()) && (nIndex < qty)); nIndex++ ) {
+        itr_var = _vars.erase(itr_var);
+        vrow.tcount--;
+      }
+
+      if((vrow.tcount) >= 18446744073609551615) { vrow.tcount = 0; }
   });
 }
 
