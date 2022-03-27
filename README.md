@@ -59,8 +59,8 @@ daily lows, daily highs, etc.  `vardgt` must be the unique 3 digit identifier fo
 * `signor` (name) - EOSIO account to pay for all RAM, the authorized signor to update the variable.
 * `scope` (name) - EOSIO account (default contract setup must equal `signor`) to which the variable is scoped
 * `varname` (name) - EOSIO name used to register the variable in `regvar` ACTION
-* `vardgt` (name) - EOSIO name that is exactly 3 digits long when converted to string format.
-* `type` (std::string) - `x` normal,  `h` hourly, `d` daily, `m` monthly, `n` yearly
+* `vardgt` (name) - EOSIO name that is exactly 3 digits long when converted to string format.  Inside `TABLE vartable` these digits will follow the type character in the row id: `tXXXyymmddhh` (the XXX position).  As such, the three digits must be unique.
+* `type` (std::string) - `x` normal,  `h` hourly, `d` daily, `m` monthly, `n` yearly.  This value will comprise the first character of the id in `TABLE vartable` .
 * `tlimit` (uint64_t) - Max number of rows assigned to this variable (pertains to `type` = `h` `d` `m` `n`)
 * `vlimit` (uint8_t) - Inside each row, this is the maximum vector size for `uval` `sval` and `nval`
 
