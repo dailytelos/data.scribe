@@ -18,13 +18,13 @@ vector<string> split(string str, string token){
 }
 
 uint8_t digitstoi(string d) {
-    check(d.size() == 2, "digitstoi(d) must be provided 2 digits, using the a,b,c,d,z,1-5 method.");
+    check(d.size() == 2, "digitstoi(d) must be provided 2 digits, using the a,b,c,d,.,1-5 method.");
     string adig = d.substr(0,1);
     string bdig = d.substr(1,1);
 
     uint8_t ret = 0;
 
-    if(adig == "z") { ret = ret + 0; }
+    if(adig == ".") { ret = ret + 0; }
     else if(adig == "1") { ret = ret + 10; }
     else if(adig == "2") { ret = ret + 20; }
     else if(adig == "3") { ret = ret + 30; }
@@ -36,7 +36,7 @@ uint8_t digitstoi(string d) {
     else if(adig == "d") { ret = ret + 90; }
     
 
-    if(bdig == "z") { ret = ret + 0; }
+    if(bdig == ".") { ret = ret + 0; }
     else if(bdig == "1") { ret = ret + 1; }
     else if(bdig == "2") { ret = ret + 2; }
     else if(bdig == "3") { ret = ret + 3; }
@@ -61,7 +61,7 @@ string itodigits(uint8_t n) {
     else if(adig == "7") { adig = "b"; }
     else if(adig == "8") { adig = "c"; }
     else if(adig == "9") { adig = "d"; }
-    else if(adig == "0") { adig = "z"; }
+    else if(adig == "0") { adig = "."; }
 
     if(sret.size() == 2)
     {
@@ -71,8 +71,8 @@ string itodigits(uint8_t n) {
         else if(bdig == "7") { bdig = "b"; }
         else if(bdig == "8") { bdig = "c"; }
         else if(bdig == "9") { bdig = "d"; }
-        else if(bdig == "0") { bdig = "z"; }
-    } else { adig = "z" + adig; }
+        else if(bdig == "0") { bdig = "."; }
+    } else { adig = "." + adig; }
 
     return (adig + bdig);
 }
