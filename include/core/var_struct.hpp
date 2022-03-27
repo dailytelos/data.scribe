@@ -25,7 +25,7 @@ struct varstrct {
         nval = i_nval;
         aval = i_aval;
         vlimit = i_vlimit;
-        check((uval.size() <= vlimit) && (sval.size() <= vlimit) && (nval.size() <= vlimit) && (aval.size() <= vlimit), "vlimit exceeded for variable. (E|varstrct|var_struct.hpp:26)");
+        check((uval.size() <= vlimit) && (sval.size() <= vlimit) && (nval.size() <= vlimit) && (aval.size() <= vlimit), "vlimit exceeded for variable. (E|varstrct|var_struct.hpp:28)");
     };
 
     uint8_t const type() {
@@ -48,19 +48,19 @@ struct varstrct {
             if((i+index) < uval.size()) { uval[i+index] = oper(operation, uval[i+index], i_uval[i]); }
             else { uval.push_back(oper(operation, (operation == "min") ? i_uval[i] : (uint128_t) 0, i_uval[i])); }
         }
-        check(uval.size() <= vlimit, "vlimit exceeded for variable uval:" + to_string(uval.size()) + " (E|varstrct|var_struct.hpp:49)");
+        check(uval.size() <= vlimit, "vlimit exceeded for variable uval:" + to_string(uval.size()) + " (E|varstrct|var_struct.hpp:51)");
         //update sval 
         for(uint8_t i = 0; i < i_sval.size(); i++) {
             if((i+index) < sval.size()) { sval[i+index] = oper(operation, sval[i+index], i_sval[i]); }
             else { sval.push_back(oper(operation, "", i_sval[i])); }
         }
-        check(sval.size() <= vlimit, "vlimit exceeded for variable sval:" + to_string(sval.size()) + "  (E|varstrct|var_struct.hpp:55)");
+        check(sval.size() <= vlimit, "vlimit exceeded for variable sval:" + to_string(sval.size()) + "  (E|varstrct|var_struct.hpp:57)");
         //update nval 
         for(uint8_t i = 0; i < i_nval.size(); i++) {
             if((i+index) < nval.size()) { nval[i+index] = oper(operation, nval[i+index], i_nval[i]); }
             else { nval.push_back(oper(operation, (operation == "min") ? i_nval[i] : (int128_t) 0, i_nval[i])); }
         }
-        check(nval.size() <= vlimit, "vlimit exceeded for variable nval:" + to_string(nval.size()) + "  (E|varstrct|var_struct.hpp:61)");
+        check(nval.size() <= vlimit, "vlimit exceeded for variable nval:" + to_string(nval.size()) + "  (E|varstrct|var_struct.hpp:63)");
         //update aval 
         for(uint8_t i = 0; i < i_aval.size(); i++) {
             if((i+index) < aval.size()) { aval[i+index] = oper(operation, aval[i+index], i_aval[i]); }
@@ -88,7 +88,7 @@ struct varstrct {
         if(operation == "min") { if(uval_old <= uval_new) { return uval_old; } return uval_new; }
         if(operation == "max") { if(uval_old >= uval_new) { return uval_old; } return uval_new; }
 
-        check(false, "oper(string, uint128_t, uint128_t) invalid operation given. (E|varstrct|var_struct.hpp:82)");
+        check(false, "oper(string, uint128_t, uint128_t) invalid operation given. (E|varstrct|var_struct.hpp:91)");
     }
 
     string const oper(string operation, string sval_old, string sval_new) {
@@ -96,7 +96,7 @@ struct varstrct {
         if(operation == "set") { return sval_new; }
         if(operation == "+") { return (sval_old + sval_new); }
 
-        check(false, "oper(string, string, string) invalid operation given. (E|varstrct|var_struct.hpp:90)");
+        check(false, "oper(string, string, string) invalid operation given. (E|varstrct|var_struct.hpp:99)");
     }
 
     int128_t const oper(string operation, int128_t nval_old, int128_t nval_new) {
@@ -110,14 +110,14 @@ struct varstrct {
         if(operation == "min") { if(nval_old <= nval_new) { return nval_old; } return nval_new; }
         if(operation == "max") { if(nval_old >= nval_new) { return nval_old; } return nval_new; }
 
-        check(false, "oper(string, int128_t, int128_t) invalid operation given. (E|varstrct|var_struct.hpp:104)");
+        check(false, "oper(string, int128_t, int128_t) invalid operation given. (E|varstrct|var_struct.hpp:113)");
     }
 
     asset const oper(string operation, asset aval_old, asset aval_new) {
         if(operation == "set") { return aval_new; }
 
-        check(aval_old.symbol.code().to_string() == aval_new.symbol.code().to_string(), "oper(string, asset, asset) asset codes do not match. (E|varstrct|var_struct.hpp:118)"); 
-        check(aval_old.symbol.precision() == aval_new.symbol.precision(), "oper(string, asset, asset) asset precisions do not match. (E|varstrct|var_struct.hpp:119)"); 
+        check(aval_old.symbol.code().to_string() == aval_new.symbol.code().to_string(), "oper(string, asset, asset) asset codes do not match. (E|varstrct|var_struct.hpp:119)"); 
+        check(aval_old.symbol.precision() == aval_new.symbol.precision(), "oper(string, asset, asset) asset precisions do not match. (E|varstrct|var_struct.hpp:120)"); 
 
         if(operation == "+") { return asset((aval_old.amount + aval_new.amount), aval_old.symbol); }
         if(operation == "-") { return asset((aval_old.amount - aval_new.amount), aval_old.symbol); }
@@ -127,7 +127,7 @@ struct varstrct {
         if(operation == "min") { if(aval_old.amount <= aval_new.amount) { return aval_old; } return aval_new; }
         if(operation == "max") { if(aval_old.amount >= aval_new.amount) { return aval_old; } return aval_new; }
 
-        check(false, "oper(string, asset, asset) invalid operation given. (E|varstrct|var_struct.hpp:104)");
+        check(false, "oper(string, asset, asset) invalid operation given. (E|varstrct|var_struct.hpp:130)");
     }
 
     EOSLIB_SERIALIZE(varstrct, (varid)(uval)(sval)(nval)(aval)(vlimit));

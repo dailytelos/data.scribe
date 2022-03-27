@@ -40,7 +40,7 @@ void _authvarname(name varname);
         if(t == VTYPE_YYMMDD)   { return "d"; }
         if(t == VTYPE_YYMM)     { return "m"; }
         if(t == VTYPE_YY)       { return "n"; }
-        check(false, "uint8_t t is invalid within varreg TABLE. (E|var.scribe|varreg|varscribe.hpp:54|)");
+        check(false, "uint8_t t is invalid within varreg TABLE. (E|data.scribe|varreg|varscribe.hpp:43|)");
       }
 
       uint64_t primary_key() const { return varname.value; }
