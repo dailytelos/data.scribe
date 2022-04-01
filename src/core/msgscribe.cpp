@@ -19,7 +19,7 @@ ACTION datascribe::msgid(uint128_t id, name sender) {
   check(nCount == id, "Invalid value for id passed, see variable global.msgid. ");
 
   //increment variable count
-  _update(get_self(), get_self(), name("global.msgid"), "+", 0, {1}, {}, {}, {});
+  _update(get_self(), get_self(), name("global.msgid"), {"+"}, 0, {1}, {}, {}, {});
 };
 
 /*ACTION datascribe::view(uint128_t id, name viewer) {
@@ -105,7 +105,7 @@ void datascribe::msg_proc(name sender, string msg) {
       _regvar(sender, sender, varname, vardgt, type, tlimit, vlimit);
     }
 
-    _update(sender, sender, varname, oper, index, uval, sval, nval, aval);
+    _update(sender, sender, varname, {oper}, index, uval, sval, nval, aval);
 
     /*  // Old version when was separate contract
     action(

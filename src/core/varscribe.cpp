@@ -35,7 +35,7 @@ ACTION datascribe::delvar(name signor, name scope, name varname) {
   }
 };
 
-ACTION datascribe::update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
+ACTION datascribe::update(name signor, name scope, name varname, vector<string> operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
   require_auth(signor);
 
   //require auth for reserved varname registration
@@ -118,20 +118,6 @@ ACTION datascribe::clearlast(name signor, name scope, name varname, uint8_t qty)
   });
 }
 
-/*
-  ACTION testnew3::clear() {
-    require_auth(get_self());
-
-    messages_table _messages(get_self(), get_self().value);
-
-    // Delete all records in _messages table
-    auto msg_itr = _messages.begin();
-    while (msg_itr != _messages.end()) {
-      msg_itr = _messages.erase(msg_itr);
-    }
-  }
-*/
-
 //**************************** PRIVATE FUNCTIONS
 
 void datascribe::_regvar(name signor, name scope, name varname, name vardgt, string type, uint64_t tlimit, uint8_t vlimit) {
@@ -145,24 +131,30 @@ void datascribe::_regvar(name signor, name scope, name varname, name vardgt, str
   auto itr_varreg = _varreg.find(varname.value);
 
   check(itr_varreg == _varreg.end(), "varname already exists, you must delete and re-create it. ");
+  if(itr_varreg == _varreg.end()) {
+    //check by secondary index
+    auto idx = _varreg.get_index<name("vardgt")>();
+    auto itr = idx.find(vardgt.value);
+    check(itr == idx.end(), "vardgt already exists, the digits cannot be redundant. ");
 
-  //check by secondary index
-  auto idx = _varreg.get_index<name("vardgt")>();
-  auto itr = idx.find(vardgt.value);
-  check(itr == idx.end(), "vardgt already exists, the digits cannot be redundant. ");
-
-  _varreg.emplace( signor, [&]( auto& regrow ) {
-    regrow.varname = varname;
-    regrow.vardgt = vardgt;
-    regrow.t = (uint8_t) type[0];
-    regrow.tcount = 0;
-    regrow.tlimit = (type == "x") ? 1 : tlimit;
-    regrow.vlimit = vlimit;
-  });
-
+    _varreg.emplace( signor, [&]( auto& regrow ) {
+      regrow.varname = varname;
+      regrow.vardgt = vardgt;
+      regrow.t = (uint8_t) type[0];
+      regrow.tcount = 0;
+      regrow.tlimit = (type == "x") ? 1 : tlimit;
+      regrow.vlimit = vlimit;
+    });
+  } else { //modify
+    _varreg.modify( itr_varreg, same_payer, [&]( auto& regrow ) {
+      regrow.tlimit = tlimit;
+      regrow.vlimit = vlimit;
+    });
+  }
 }
 
-void datascribe::_update(name signor, name scope, name varname, string operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
+
+void datascribe::_update(name signor, name scope, name varname, vector<string> operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
 
   //require auth for reserved varname registration
   _authvarname(varname);

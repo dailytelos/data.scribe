@@ -73,7 +73,7 @@ uploaded to the blockchain in one action.
 * `signor` (name) - EOSIO account to pay for all RAM, the authorized signor to update the variable.
 * `scope` (name) - EOSIO account (default contract setup must equal `signor`) to which the variable is scoped
 * `varname` (name) - EOSIO name used to register the variable in `regvar` ACTION
-* `operation` (std::string) - Valid operation to perform on all data: `set` `+` `-` `*` `/` `%` `min` `max`
+* `operation` (vector<std::string>) - Valid operations to perform on all data: `set` `+` `-` `*` `/` `%` `min` `max`
 * `index` (uint8_t) - Index of where to apply **value** and **operation** into `uval` `sval` and `nval`
 * `uval` (vector<uint128_t>) - Vector of uint128_t
 * `sval` (vector<std::string>) - Vector of std::string
