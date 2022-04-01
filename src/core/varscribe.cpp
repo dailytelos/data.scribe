@@ -35,7 +35,7 @@ ACTION datascribe::delvar(name signor, name scope, name varname) {
   }
 };
 
-ACTION datascribe::update(name signor, name scope, name varname, vector<string> operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
+ACTION datascribe::update(name signor, name scope, name varname, vector<string> header, vector<string> operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
   require_auth(signor);
 
   //require auth for reserved varname registration
@@ -43,7 +43,7 @@ ACTION datascribe::update(name signor, name scope, name varname, vector<string> 
 
   check(signor.value == scope.value, "Account signor must match account scope. ");
 
-  _update(signor, scope, varname, operation, index, uval, sval, nval, aval);
+  _update(signor, scope, varname, header, operation, index, uval, sval, nval, aval);
 }
 
 ACTION datascribe::clearbytime(name signor, name scope, name varname, time_point_sec time) {
@@ -154,7 +154,7 @@ void datascribe::_regvar(name signor, name scope, name varname, name vardgt, str
 }
 
 
-void datascribe::_update(name signor, name scope, name varname, vector<string> operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
+void datascribe::_update(name signor, name scope, name varname, vector<string> header, vector<string> operation, uint8_t index, vector<uint128_t> uval, vector<string> sval, vector<int128_t> nval, vector<asset> aval) {
 
   //require auth for reserved varname registration
   _authvarname(varname);
@@ -273,9 +273,11 @@ void datascribe::_authvarname(name varname) {
     // will still be scoped under the user name
     // global.xxxx
     // stat.xxxx
+    // header.xxxx
     // data.xxxx
     if( (varname.to_string().substr(0,7) == "global.") ||
         (varname.to_string().substr(0,5) == "stat.") ||
+        (varname.to_string().substr(0,7) == "header.") ||
         (varname.to_string().substr(0,5) == "data.") ) {
         require_auth(get_self());
     }
