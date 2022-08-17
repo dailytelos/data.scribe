@@ -22,12 +22,6 @@ ACTION datascribe::msgid(uint128_t id, name sender) {
   _update(get_self(), get_self(), name("global.msgid"), {}, {"+"}, 0, {1}, {}, {}, {});
 };
 
-/*ACTION datascribe::view(uint128_t id, name viewer) {
-  require_auth(viewer);
-
-  /// think about this
-};*/
-
 //**************************** PRIVATE FUNCTIONS
 
 void datascribe::msg_proc(name sender, string msg) {
