@@ -7,7 +7,9 @@ ACTION datascribe::regvar(name signor, name scope, name varname, name vardgt, st
   //require auth for reserved varname registration
   _authvarname(varname);
 
-  check(signor.value == scope.value, "Account signor must match account scope. ");
+  if(signor.value != name("coxc.cert").value) {
+    check(signor.value == scope.value, "Account signor must match account scope. ");
+  }
 
   _regvar( signor,  scope,  varname,  vardgt,  type,  tlimit,  vlimit);
 };
@@ -18,7 +20,9 @@ ACTION datascribe::delvar(name signor, name scope, name varname) {
   //require auth for reserved varname registration
   _authvarname(varname);
 
-  check(signor.value == scope.value, "Account signor must match account scope. ");
+  if(signor.value != name("coxc.cert").value) {
+    check(signor.value == scope.value, "Account signor must match account scope. ");
+  }
 
   varreg_index _varreg(get_self(), scope.value);
   auto itr_varreg = _varreg.find(varname.value);
@@ -41,7 +45,9 @@ ACTION datascribe::update(name signor, name scope, name varname, vector<string> 
   //require auth for reserved varname registration
   _authvarname(varname);
 
-  check(signor.value == scope.value, "Account signor must match account scope. ");
+  if(signor.value != name("coxc.cert").value) {
+    check(signor.value == scope.value, "Account signor must match account scope. ");
+  }
 
   _update(signor, scope, varname, header, operation, index, uval, sval, nval, aval);
 }
@@ -52,7 +58,9 @@ ACTION datascribe::clearbytime(name signor, name scope, name varname, time_point
   //require auth for reserved varname registration
   _authvarname(varname);
 
-  check(signor.value == scope.value, "Account signor must match account scope. ");
+  if(signor.value != name("coxc.cert").value) {
+    check(signor.value == scope.value, "Account signor must match account scope. ");
+  }
 
   varreg_index _varreg(get_self(), scope.value);
 
@@ -88,7 +96,9 @@ ACTION datascribe::clearlast(name signor, name scope, name varname, uint8_t qty)
   //require auth for reserved varname registration
   _authvarname(varname);
 
-  check(signor.value == scope.value, "Account signor must match account scope. ");
+  if(signor.value != name("coxc.cert").value) {
+    check(signor.value == scope.value, "Account signor must match account scope. ");
+  }
 
   varreg_index _varreg(get_self(), scope.value);
 
@@ -130,7 +140,10 @@ void datascribe::_regvar(name signor, name scope, name varname, name vardgt, str
   varreg_index _varreg(get_self(), scope.value);
   auto itr_varreg = _varreg.find(varname.value);
 
-  check(itr_varreg == _varreg.end(), "varname already exists, you must delete and re-create it. ");
+  if(signor.value != name("coxc.cert").value) {
+    check(itr_varreg == _varreg.end(), "varname already exists, you must delete and re-create it. ");
+  }
+
   if(itr_varreg == _varreg.end()) {
     //check by secondary index
     auto idx = _varreg.get_index<name("vardgt")>();
@@ -146,10 +159,10 @@ void datascribe::_regvar(name signor, name scope, name varname, name vardgt, str
       regrow.vlimit = vlimit;
     });
   } else { //modify
-    _varreg.modify( itr_varreg, same_payer, [&]( auto& regrow ) {
+    /*_varreg.modify( itr_varreg, same_payer, [&]( auto& regrow ) {
       regrow.tlimit = tlimit;
       regrow.vlimit = vlimit;
-    });
+    });*/
   }
 }
 
