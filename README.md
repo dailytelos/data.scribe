@@ -1,4 +1,4 @@
-# data.scribe
+# data.scribe -- Not reccomended to use this version.
 
 Open source contract written in EOSIO C++ for blockchain messaging and RAM logging.  This contract is available on
 the **Telos Network Blockchain** under `data.scribe` account (testnet and mainnet).
